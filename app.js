@@ -1,12 +1,20 @@
+document.getElementById("search-box")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+        searchSong();
+    }
+});
 const searchSong = async() => {
     const searchText = document.getElementById("search-box").value;
     const url = `https://api.lyrics.ovh/suggest/:${searchText}`
-    // fetch(url)
-    //     .then(response => response.json())
-    //     .then(data => displaySongs(data.data))
-    const res=await fetch(url);
-    const data=await res.json();
-    displaySongs(data.data);
+    fetch(url)
+        .then(response => response.json())
+        .then(data => displaySongs(data.data))
+        .catch(error=>displayError('sorry! something went wrong'))
+    // const res=await fetch(url);
+    // const data=await res.json();
+    // displaySongs(data.data);
 }
 function displaySongs(songs) {
     const songList = document.getElementById("song-list");
@@ -33,16 +41,26 @@ function displaySongs(songs) {
     });
 }
 const getLyrics=async(artist,title)=>{
-    const url =`https://api.lyrics.ovh/v1/:${artist}/:${title}`
+    const url =`https://api.lyrics.ovh/v12/:${artist}/:${title}`
     // fetch(url)
     // .then(response=>response.json())
     // .then(data=>displayLyrics(data.lyrics))
 
-    const response=await fetch(url);
-    const data=await response.json();
-    displayLyrics(data.lyrics);
+    try{
+        const response=await fetch(url);
+        const data=await response.json();
+        displayLyrics(data.lyrics);
+    }
+    catch(error){
+        displayError('sorry! can not getting the lyrics')
+    }
+    
 }
 const displayLyrics=(lyrics)=>{
     const songLyrics=document.getElementById("songLyrics");
     songLyrics.innerText=lyrics;
+}
+const displayError=error=>{
+    const error1=document.getElementById('error-id');
+    error1.innerText=error;
 }
