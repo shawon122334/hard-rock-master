@@ -41,7 +41,7 @@ function displaySongs(songs) {
     });
 }
 const getLyrics=async(artist,title)=>{
-    const url =`https://api.lyrics.ovh/v12/:${artist}/:${title}`
+    const url =`https://api.lyrics.ovh/v1/:${artist}/:${title}`
     // fetch(url)
     // .then(response=>response.json())
     // .then(data=>displayLyrics(data.lyrics))
